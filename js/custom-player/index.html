@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Players video custom</title>
+    </head>
+    <style>
+        body { text-transform: uppercase; }
+        button, span { display: block; }
+    </style>
+    <body>
+    <div class="video-player">
+        <button type="button" class="action">play</button>
+        <span class="timespent">00:00.00</span>
+        <span class="timeleft">00:00.00</span>
+        <video class="video" width="560" height="320" src="video1.mp4"></video>
+    </div>
+    <div class="video-player">
+        <button type="button" class="action">play</button>
+        <span class="timespent">00:00.00</span>
+        <span class="timeleft">00:00.00</span>
+        <video class="video" width="560" height="320" src="video2.mp4"></video>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            videoPlayer('.video-player');
+        });
+
+        function videoPlayer(selector) {
+            const elements = document.querySelectorAll(selector);
+            var   s, m;
+
+            if (!elements || elements.length === 0) {
+                return;
+            };
+
+            for (var i=0; i<elements.length; i+=1 ){
+                const player = elements[i],
+                      video = player.querySelector('video'),
+                      button = player.querySelector('.action'),
+                      timespent = player.querySelector('.timespent'),
+                      timeleft = player.querySelector('.timeleft');
+
+
+                // Countdown
+                video.addEventListener('timeupdate', function() {
+                    const timeLeft = video.duration - video.currentTime;
+
+                    s = (timeLeft % 60).toFixed(2);
+                    m = Math.floor( timeLeft / 60 ) % 60;
+
+                    s = s < 10 ? '0'+s : s;
+                    m = m < 10 ? '0'+m : m;
+
+                    timeleft.innerHTML = m+':'+s;
+                }, false);
+
+
+                // Countup
+                video.addEventListener('timeupdate', function() {
+                    s = (video.currentTime % 60).toFixed(2);
+                    m = parseInt((video.currentTime / 60) % 60);
+
+                    s = s < 10 ? '0'+s : s;
+                    m = m < 10 ? '0'+m : m;
+
+                    timespent.innerHTML = m+':'+s;
+                }, false);
+
+
+                // Play & Pause function
+                player.addEventListener('click', function (e) {
+                    if (e.target.matches('.action') || e.target.matches('.video')) {
+                        video.paused ? video.play() : video.pause();
+
+                        let text = button.textContent === 'play' ? 'pause' : 'play';
+                        button.textContent = text;
+                    }
+                }, false);
+            };
+        }
+    </script>
+</body>
+</html>
