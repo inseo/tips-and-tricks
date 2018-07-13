@@ -21,14 +21,23 @@
         <span class="timeleft">00:00.00</span>
         <video class="video" width="560" height="320" src="video2.mp4"></video>
     </div>
+    <div id="audio-player">
+        <audio>
+            <source src="audio.mp3" type="audio/mp3" />
+        </audio>
+        <button type="button" class="action">play</button>
+        <span class="timespent">00:00.00</span>
+        <span class="timeleft">00:00.00</span>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             videoPlayer('.video-player');
+            audioPlayer('#audio-player');
         });
 
         function videoPlayer(selector) {
             const elements = document.querySelectorAll(selector);
-            var   s, m;
+            var   sl, ml, ss, ms;
 
             if (!elements || elements.length === 0) {
                 return;
@@ -42,30 +51,28 @@
                       timeleft = player.querySelector('.timeleft');
 
 
-                // Countdown
-                video.addEventListener('timeupdate', function() {
+                setInterval(function(){
+                    // Countdown
                     const timeLeft = video.duration - video.currentTime;
 
-                    s = (timeLeft % 60).toFixed(2);
-                    m = Math.floor( timeLeft / 60 ) % 60;
+                    sl = (timeLeft % 60).toFixed(2);
+                    ml = Math.floor( timeLeft / 60 ) % 60;
 
-                    s = s < 10 ? '0'+s : s;
-                    m = m < 10 ? '0'+m : m;
+                    sl = sl < 10 ? '0'+sl : sl;
+                    ml = ml < 10 ? '0'+ml : ml;
 
-                    timeleft.innerHTML = m+':'+s;
-                }, false);
+                    timeleft.innerHTML = ml+':'+sl;
 
 
-                // Countup
-                video.addEventListener('timeupdate', function() {
-                    s = (video.currentTime % 60).toFixed(2);
-                    m = parseInt((video.currentTime / 60) % 60);
+                    // Countup
+                    ss = (video.currentTime % 60).toFixed(2);
+                    ms = parseInt((video.currentTime / 60) % 60);
 
-                    s = s < 10 ? '0'+s : s;
-                    m = m < 10 ? '0'+m : m;
+                    ss = ss < 10 ? '0'+ss : ss;
+                    ms = ms < 10 ? '0'+ms : ms;
 
-                    timespent.innerHTML = m+':'+s;
-                }, false);
+                    timespent.innerHTML = ms+':'+ss;
+                },75);
 
 
                 // Play & Pause function
@@ -78,6 +85,56 @@
                     }
                 }, false);
             };
+        }
+
+
+        // Custom audio player
+        function audioPlayer(selector) {
+            const element = document.querySelectorAll(selector);
+            if (!element || element.length === 0) {
+                return;
+            };
+
+
+            const player = document.getElementById('audio-player'),
+                  audio = player.querySelector('audio'),
+                  button = player.querySelector('.action'),
+                  timespent = player.querySelector('.timespent'),
+                  timeleft = player.querySelector('.timeleft');
+            var   sl, ml;
+
+
+            setInterval(function(){
+                // Countdown
+                const timeLeft = audio.duration - audio.currentTime;
+
+                sl = (timeLeft % 60).toFixed(2);
+                ml = Math.floor( timeLeft / 60 ) % 60;
+
+                sl = sl < 10 ? '0'+sl : sl;
+                ml = ml < 10 ? '0'+ml : ml;
+
+                timeleft.innerHTML = ml+':'+sl;
+
+
+                // Countup
+                ss = (audio.currentTime % 60).toFixed(2);
+                ms = parseInt((audio.currentTime / 60) % 60);
+
+                ss = ss < 10 ? '0'+ss : ss;
+                ms = ms < 10 ? '0'+ms : ms;
+
+                timespent.innerHTML = ms+':'+ss;
+            },75);
+
+
+            // Play & Pause function
+            button.addEventListener('click', function(e) {
+                audio.paused ? audio.play() : audio.pause();
+
+                let text = e.target.textContent === 'play' ? 'pause' : 'play';
+                e.target.textContent = text;
+            }, false);
         }
     </script>
 </body>
