@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Update content on rollover</title>
+        <style>
+            .live span {
+                display: block;
+            }
+        </style>
+    </head>
+
+    <body>
+    <ul id="exhibitions-list">
+        <li>
+            <a class="is-active" data-place="Lake Myahhaven" data-date="July 2018" data-title="Organic didactic concept" data-url="1.jpg" href="#">
+                Organic didactic concept
+            </a>
+        </li>
+        <li>
+            <a data-place="West Deionview" data-date="May 2018" data-title="Multi-tiered radical artificialintelligence" data-url="2.jpg" href="#">
+                Multi-tiered radical artificialintelligence
+            </a>
+        </li>
+        <li>
+            <a data-place="Stehrfort" data-date="June 2018" data-title="Loremp ipsum dolor" data-url="3.jpg" href="#">
+                Loremp ipsum dolor
+            </a>
+        </li>
+    </ul>
+
+    <div class="live">
+        <span id="place">Lake Myahhaven</span>
+        <span id="date">July 2018</span>
+        <span id="title">Organic didactic concept</span>
+    </div>
+
+    <img src="1.jpg" id="cover">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            updateContent('#exhibitions-list');
+        });
+
+        function updateContent(selector) {
+            const element = document.querySelectorAll(selector);
+            if (!element || element.length === 0) {
+                return;
+            };
+
+
+            const place = document.getElementById('place'),
+                  date = document.getElementById('date'),
+                  title = document.getElementById('title'),
+                  list = document.getElementById('exhibitions-list'),
+                  links = list.querySelectorAll('a'),
+                  activeLink = list.querySelector('.is-active'),
+                  initialPlace = activeLink.getAttribute('data-place'),
+                  initialDate = activeLink.getAttribute('data-date'),
+                  initialTitle = activeLink.getAttribute('data-title'),
+                  initialUrl = activeLink.getAttribute('data-url'),
+                  targetImg = document.getElementById('cover'),
+                  // Assigne new values
+                  show = function() {
+                        const newPlace = this.getAttribute('data-place'),
+                              newDate = this.getAttribute('data-date'),
+                              newTitle = this.getAttribute('data-title'),
+                              newUrl = this.getAttribute('data-url');
+
+                        place.innerHTML = newPlace;
+                        date.innerHTML = newDate;
+                        title.innerHTML = newTitle;
+                        targetImg.setAttribute('src', newUrl);
+                  },
+                  // Restore initial values
+                  restore = function() {
+                        place.innerHTML = initialPlace;
+                        date.innerHTML = initialDate;
+                        title.innerHTML = initialTitle;
+                        targetImg.setAttribute('src', initialUrl);
+                  };
+
+            // Assignment
+            for (var i=0; i<links.length; i+=1){
+                links[i].addEventListener('mouseover', show, false);
+            };
+
+            // Rehabilitation
+            list.addEventListener('mouseleave', restore, false);
+    }
+    </script>
+</body>
+</html>
