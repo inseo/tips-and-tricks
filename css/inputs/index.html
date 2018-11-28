@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>CSS checkbox & radio button</title>
+    </head>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.625;
+        }
+
+        .u-sr-only {
+            border: 0;
+            clip: rect(1px, 1px, 1px, 1px);
+            -webkit-clip-path: inset(50%);
+                    clip-path: inset(50%);
+            height: 1px;
+            overflow: h;
+            padding: 0;
+            position: ;
+            width: 1px;
+            white-space: nowrap;
+        }
+
+        .c-label {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1em;
+            padding-left: 2.125em;
+        }
+
+        /* Checkboxes */
+
+        .c-label--checkbox::before {
+            content: " ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1.5em;
+            height: 1.5em;
+            border: 1px solid #888;
+            border-radius: 4px;
+        }
+
+        .c-label--checkbox::after {
+            top: .75em;
+            left: .375em;
+            width: .375em;
+            height: .75em;
+            border-width: 2px 2px 0 0;
+            border-style: solid;
+            border-color: #276ef1;
+            transform: scaleX(-1) rotate(135deg);
+            transform-origin: left top;
+        }
+
+        input:checked + .c-label--checkbox::after {
+            content: " ";
+            position: absolute;
+        }
+
+        input:checked + .c-label--checkbox::after {
+            animation: draw .25s ease 1;
+        }
+
+        @keyframes draw {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            20% {
+                width: .375em;
+                height: 0;
+                opacity: 1;
+            }
+            40% {
+                width: .375em;
+                height: .75em;
+                opacity: 1;
+            }
+            100% {
+                width: .375em;
+                height: .75em;
+                opacity: 1;
+            }
+        }
+
+
+        /* Radio buttons */
+
+        .c-label--button::before {
+            content: " ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1.5em;
+            height: 1.5em;
+            border: 1px solid #888;
+            border-radius: 50%
+        }
+
+        .c-label--button::after {
+            top: .5em;
+            left: .5em;
+            width: .625em;
+            height: .625em;
+            background-color: #276ef1;
+            border-radius: 50%;
+        }
+
+        input:checked + .c-label--button::after {
+            content: " ";
+            position: absolute;
+        }
+
+        input:checked + .c-label--button::after {
+            animation: pop .25s ease-in-out 1;
+        }
+
+        @keyframes pop {
+            0% {
+                opacity: 0;
+            }
+            25% {
+                transform: scale(.5);
+                opacity: .25;
+            }
+            75% {
+                transform: scale(1.25);
+                opacity: .75;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+
+    <body>
+        <fieldset>
+            <legend>Checkboxes</legend>
+            <div>
+                <input class="u-sr-only" type="checkbox" id="checkbox-1" checked />
+                <label class="c-label c-label--checkbox" for="checkbox-1">Checkbox 1</label>
+            </div>
+            <div>
+                <input class="u-sr-only" type="checkbox" id="checkbox-2" />
+                <label class="c-label c-label--checkbox" for="checkbox-2">Checkbox 2</label>
+            </div>
+        </fieldset>
+        <fieldset>
+    <legend>Radio buttons</legend>
+    <div>
+        <input class="u-sr-only" type="radio" id="radio-1" name="choice" checked />
+        <label class="c-label c-label--button" for="radio-1">Radio button 1</label>
+    </div>
+    <div class="u-mt-xs">
+        <input class="u-sr-only" type="radio" id="radio-2" name="choice" />
+        <label class="c-label c-label--button" for="radio-2">Radio button 2</label>
+    </div>
+</fieldset>
+    </body>
+</html>
