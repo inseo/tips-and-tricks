@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Toggle password visibility</title>
+    </head>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.625;
+        }
+    </style>
+    <script>// Listen for click events
+      document.addEventListener('click', function (event) {
+
+        // If the clicked element isn't our show password checkbox, bail
+        if (!event.target.hasAttribute('data-show-password')) return;
+
+        // Get the password field
+        var password = document.querySelector(event.target.getAttribute('data-show-password'));
+        if (!password) return;
+
+        // Check if the password should be shown or hidden
+        if (event.target.checked) {
+          // Show the password
+          password.type = 'text';
+        } else {
+          // Hide the password
+          password.type = 'password';
+        }
+
+      }, false);
+    </script>
+
+    <body>
+        <form>
+          <label for="password">Mot de passe</label>
+          <input type="password" name="password" id="password">
+
+          <label for="show_password">
+            <input type="checkbox" name="show_password" id="show_password" data-show-password="#password">
+            Show Password
+          </label>
+        </form>
+    </body>
+</html>
